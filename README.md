@@ -1,1 +1,1 @@
-# Ahorcado2.0TSW
+# Crear la clase GOD
