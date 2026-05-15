@@ -9,6 +9,27 @@
             _motor = motor;
         }
 
+        // NUEVO
+        public string PedirCategoria()
+        {
+            Console.WriteLine("Selecciona una categoría:");
+            Console.WriteLine("1. Arquitectura");
+            Console.WriteLine("2. POO");
+            Console.WriteLine("3. .NET");
+
+            Console.Write("\nOpción: ");
+
+            string opcion = Console.ReadLine();
+
+            return opcion switch
+            {
+                "1" => "Arquitectura",
+                "2" => "POO",
+                "3" => ".NET",
+                _ => "POO"
+            };
+        }
+
         public void MostrarTablero()
         {
             Console.Clear();

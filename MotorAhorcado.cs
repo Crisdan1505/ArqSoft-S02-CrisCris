@@ -14,12 +14,16 @@
 
         public int IntentosRestantes => _intentosRestantes;
 
-        // NUEVO
+        // PISTA
         public bool MostrarPista => _intentosRestantes <= 3;
 
-        public MotorAhorcado(IRepositorioPalabras repositorio)
+        public MotorAhorcado(
+            IRepositorioPalabras repositorio,
+            string categoria
+        )
         {
-            _palabraSecreta = repositorio.ObtenerPalabraAleatoria();
+            _palabraSecreta =
+                repositorio.ObtenerPalabraAleatoria(categoria);
         }
 
         public bool LetraYaUsada(char letra)
