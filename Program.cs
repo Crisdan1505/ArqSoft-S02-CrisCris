@@ -1,56 +1,103 @@
 ﻿var repositorio = new Ahorcado.PalabrasEnMemoria();
 
-// UI temporal para pedir categoría
-var uiTemporal = new Ahorcado.ConsolaUI(null);
+Console.WriteLine("¿Qué juego quieres jugar?");
+Console.WriteLine("  1 — Ahorcado");
+Console.WriteLine("  2 — Viborita");
+Console.Write("Opción: ");
 
-string categoria = uiTemporal.PedirCategoria();
+var opcion = Console.ReadLine();
 
-// Crear motor con categoría
-var motor = new Ahorcado.MotorAhorcado(
-    repositorio,
-    categoria
-);
-
-var ui = new Ahorcado.ConsolaUI(motor);
-
-Console.WriteLine("=== AHORCADO ===");
-
-while (!motor.Ganado() && !motor.Perdido())
+if (opcion == "2")
 {
-    ui.MostrarTablero();
+    var motor = new Ahorcado.MotorViborita();
+    var ui = new Ahorcado.ConsolaUIViborita(motor);
 
-    char letra = ui.PedirLetra();
+    Console.CursorVisible = false;
 
-    if (motor.LetraYaUsada(letra))
+    while (!motor.Ganado() && !motor.Perdido())
     {
-        ui.MostrarMensaje("Ya usaste esa letra.");
-        continue;
+        ui.MostrarTablero();
+
+        var tecla = ui.LeerTecla();
+
+        if (tecla == ConsoleKey.Q)
+        {
+            break;
+        }
+
+        if (tecla != ConsoleKey.NoName)
+        {
+            motor.CambiarDireccion(tecla);
+        }
+
+        motor.Avanzar();
+
+        // Velocidad del juego
+        Thread.Sleep(150);
     }
 
-    motor.RegistrarLetra(letra);
-}
+    ui.MostrarTablero();
 
-ui.MostrarTablero();
-
-if (motor.Ganado())
-{
     ui.MostrarMensaje(
-        $"\n¡Ganaste! La palabra era: {motor.PalabraSecreta}"
+        motor.Ganado()
+            ? "\n¡Ganaste! Llegaste a 10 puntos."
+            : "\nGame over."
     );
 }
 else
 {
-    ui.MostrarMensaje(
-        $"\nPerdiste. La palabra era: {motor.PalabraSecreta}"
-    );
-}
+    // UI temporal para pedir categoría
+    var uiTemporal = new Ahorcado.ConsolaUI(null);
 
-if (ui.PreguntarOtraVez())
-{
-    var nuevoMotor = new Ahorcado.MotorAhorcado(
+    string categoria = uiTemporal.PedirCategoria();
+
+    // Crear motor con categoría
+    var motor = new Ahorcado.MotorAhorcado(
         repositorio,
         categoria
     );
 
-    var nuevaUI = new Ahorcado.ConsolaUI(nuevoMotor);
+    var ui = new Ahorcado.ConsolaUI(motor);
+
+    Console.WriteLine("=== AHORCADO ===");
+
+    while (!motor.Ganado() && !motor.Perdido())
+    {
+        ui.MostrarTablero();
+
+        char letra = ui.PedirLetra();
+
+        if (motor.LetraYaUsada(letra))
+        {
+            ui.MostrarMensaje("Ya usaste esa letra.");
+            continue;
+        }
+
+        motor.RegistrarLetra(letra);
+    }
+
+    ui.MostrarTablero();
+
+    if (motor.Ganado())
+    {
+        ui.MostrarMensaje(
+            $"\n¡Ganaste! La palabra era: {motor.PalabraSecreta}"
+        );
+    }
+    else
+    {
+        ui.MostrarMensaje(
+            $"\nPerdiste. La palabra era: {motor.PalabraSecreta}"
+        );
+    }
+
+    if (ui.PreguntarOtraVez())
+    {
+        var nuevoMotor = new Ahorcado.MotorAhorcado(
+            repositorio,
+            categoria
+        );
+
+        var nuevaUI = new Ahorcado.ConsolaUI(nuevoMotor);
+    }
 }
