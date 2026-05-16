@@ -1,2 +1,3 @@
-# Crear la clase GOD
-Un juego sencillo escrito en C#
+#Practicas en clase de C# y Visual Comunity
+Se creo un proyecto de consola en C# con Visual Studio Community, se realizaron practicas en clase para aprender a programar en este lenguaje.
+Se creo el programa Principal JuegoAhorcado en el cual se implementaron clase y cambios para aprender sobre el entorno de C#, de igual forma se creo otra rama para poder agregar el JuegoLaViborita, se agfregaron nuevas clases y de igual forma la clase Program.cs fue modificada para poder visualizar e interactuar xcon cualquiera de los dos juegos.
